@@ -7,3 +7,4 @@ export * from './createFile.js';
 export * from './copy.js';
 export * from './remove.js';
 export * from './move.js';
+export * from './hash.js';

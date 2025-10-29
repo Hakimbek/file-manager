@@ -8,6 +8,7 @@ import {
     remove,
     copy,
     move,
+    hash,
 } from './utils';
 import { arch, cpus, EOL, homedir, userInfo } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -80,6 +81,8 @@ const main = () => {
             console.log(userInfo().username);
         } else if (userInput === 'os --architecture') {
             console.log(arch());
+        } else if (userInput.startsWith('hash ')) {
+            hash(userInput, currentDirectory);
         } else {
             console.log('Invalid input');
         }
