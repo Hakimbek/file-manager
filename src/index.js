@@ -3,6 +3,7 @@ import {
     logCurrentDirectory,
     readFile,
     list,
+    createDirectory,
 } from './utils';
 import { homedir } from "node:os";
 import {dirname, isAbsolute, join, resolve} from "node:path";
@@ -53,6 +54,8 @@ const main = () => {
             }
         } else if (userInput.startsWith('cat ')) {
             readFile(userInput, currentDirectory);
+        } else if (userInput.startsWith('mkdir ')) {
+            await createDirectory(userInput, currentDirectory);
         } else {
             console.log('Invalid input');
         }
