@@ -1,6 +1,6 @@
-import { resolve } from 'node:path'
-import { createHash } from 'node:crypto'
-import { createReadStream } from 'node:fs'
+import { resolve } from 'node:path';
+import { createHash } from 'node:crypto';
+import { createReadStream } from 'node:fs';
 
 export const hash = (userInput, currentDirectory) => {
     const fileName = userInput.slice(5).trim();

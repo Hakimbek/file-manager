@@ -8,3 +8,5 @@ export * from './copy.js';
 export * from './remove.js';
 export * from './move.js';
 export * from './hash.js';
+export * from './compress.js';
+export * from './decompress.js';

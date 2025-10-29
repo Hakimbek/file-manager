@@ -9,6 +9,8 @@ import {
     copy,
     move,
     hash,
+    compress,
+    decompress
 } from './utils';
 import { arch, cpus, EOL, homedir, userInfo } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -83,6 +85,10 @@ const main = () => {
             console.log(arch());
         } else if (userInput.startsWith('hash ')) {
             hash(userInput, currentDirectory);
+        } else if (userInput.startsWith('compress ')) {
+            await compress(userInput, currentDirectory);
+        } else if (userInput.startsWith('decompress ')) {
+            await decompress(userInput, currentDirectory)
         } else {
             console.log('Invalid input');
         }
