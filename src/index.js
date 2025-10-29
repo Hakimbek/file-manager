@@ -6,9 +6,9 @@ import {
     createDirectory,
     createFile,
 } from './utils';
-import { homedir } from "node:os";
-import {dirname, isAbsolute, join, resolve} from "node:path";
-import {existsSync, lstatSync} from "node:fs";
+import { arch, cpus, EOL, homedir, userInfo } from "node:os";
+import { dirname, isAbsolute, join, resolve } from "node:path";
+import { existsSync, lstatSync } from "node:fs";
 
 const main = () => {
     const username = getUserName();
@@ -59,15 +59,27 @@ const main = () => {
             await createDirectory(userInput, currentDirectory);
         } else if (userInput.startsWith('add ')) {
             await createFile(userInput, currentDirectory);
+        } else if (userInput === 'os --EOL') {
+            console.log(JSON.stringify(EOL));
+        } else if (userInput === 'os --cpus') {
+            console.log(cpus().map(({ model, speed }) => {
+                return { model, speed: `${(speed / 1000).toFixed(2)} GHz` }
+            }));
+        } else if (userInput === 'os --homedir') {
+            console.log(homedir());
+        } else if (userInput === 'os --username') {
+            console.log(userInfo().username);
+        } else if (userInput === 'os --architecture') {
+            console.log(arch());
         } else {
             console.log('Invalid input');
         }
     })
 
     process.on("SIGINT", () => {
-        console.log(`Thank you for using File Manager, ${username}, goodbye!`)
+        console.log(`Thank you for using File Manager, ${username}, goodbye!`);
         process.exit(0);
     })
 }
 
-main()
+main();
