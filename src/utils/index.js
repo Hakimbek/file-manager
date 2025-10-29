@@ -4,3 +4,6 @@ export * from './logCurrentDirectory.js';
 export * from './list.js';
 export * from './createDirectory.js';
 export * from './createFile.js';
+export * from './copy.js';
+export * from './remove.js';
+export * from './move.js';

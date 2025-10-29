@@ -5,6 +5,9 @@ import {
     list,
     createDirectory,
     createFile,
+    remove,
+    copy,
+    move,
 } from './utils';
 import { arch, cpus, EOL, homedir, userInfo } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -53,6 +56,12 @@ const main = () => {
             } else {
                 console.log('Invalid path');
             }
+        } else if (userInput.startsWith('rm ')) {
+            await remove(userInput, currentDirectory)
+        } else if (userInput.startsWith('cp ')) {
+            await copy(userInput, currentDirectory)
+        } else if (userInput.startsWith('mv ')) {
+            await move(userInput, currentDirectory)
         } else if (userInput.startsWith('cat ')) {
             readFile(userInput, currentDirectory);
         } else if (userInput.startsWith('mkdir ')) {
