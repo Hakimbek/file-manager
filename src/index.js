@@ -1,6 +1,12 @@
-import { getUserName, logCurrentDirectory, readFile, listDir } from './utils';
+import {
+    getUserName,
+    logCurrentDirectory,
+    readFile,
+    list,
+} from './utils';
 import { homedir } from "node:os";
-import { resolve } from 'node:path'
+import {dirname, isAbsolute, join, resolve} from "node:path";
+import {existsSync, lstatSync} from "node:fs";
 
 const main = () => {
     const username = getUserName();
@@ -19,11 +25,34 @@ const main = () => {
             console.log(`Thank you for using File Manager, ${username}, goodbye!`);
             process.exit(0);
         } else if (userInput === 'ls') {
-            await listDir(currentDirectory);
+            await list(currentDirectory);
+        } else if (userInput === 'up') {
+            const parentDir = dirname(currentDirectory);
+            if (resolve(parentDir).startsWith(resolve(homeDirectory))) {
+                currentDirectory = parentDir;
+                console.log(`You are currently in ${currentDirectory}`);
+            } else {
+                console.log('Cannot go above home directory.');
+            }
+        } else if (userInput.startsWith('cd ')) {
+            const targetPath = userInput.slice(3).trim();
+            const newPath = isAbsolute(targetPath)
+                ? targetPath
+                : join(currentDirectory, targetPath);
+
+            if (existsSync(newPath) && lstatSync(newPath).isDirectory()) {
+                const resolvedPath = resolve(newPath);
+                if (resolvedPath.startsWith(resolve(homeDirectory))) {
+                    currentDirectory = resolvedPath;
+                    console.log(`You are currently in ${currentDirectory}`);
+                } else {
+                    console.log('Access outside home directory is not allowed.');
+                }
+            } else {
+                console.log('Invalid path');
+            }
         } else if (userInput.startsWith('cat ')) {
-            const targetFile = userInput.slice(4).trim();
-            const fullPath = resolve(currentDirectory, targetFile);
-            readFile(fullPath);
+            readFile(userInput, currentDirectory);
         } else {
             console.log('Invalid input');
         }
