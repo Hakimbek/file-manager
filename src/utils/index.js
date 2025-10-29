@@ -3,3 +3,4 @@ export * from './readFile.js';
 export * from './logCurrentDirectory.js';
 export * from './list.js';
 export * from './createDirectory.js';
+export * from './createFile.js';

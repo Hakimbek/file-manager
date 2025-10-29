@@ -4,6 +4,7 @@ import {
     readFile,
     list,
     createDirectory,
+    createFile,
 } from './utils';
 import { homedir } from "node:os";
 import {dirname, isAbsolute, join, resolve} from "node:path";
@@ -56,6 +57,8 @@ const main = () => {
             readFile(userInput, currentDirectory);
         } else if (userInput.startsWith('mkdir ')) {
             await createDirectory(userInput, currentDirectory);
+        } else if (userInput.startsWith('add ')) {
+            await createFile(userInput, currentDirectory);
         } else {
             console.log('Invalid input');
         }
