@@ -1,6 +1,7 @@
 import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
+import { logCurrentDirectory } from "./logCurrentDirectory.js";
 
 export const hash = (userInput, currentDirectory) => {
     const fileName = userInput.slice(5).trim();
@@ -12,6 +13,7 @@ export const hash = (userInput, currentDirectory) => {
 
     stream.on('end', () => {
         console.log(hash.digest('hex'));
+        logCurrentDirectory(currentDirectory);
     });
 
     stream.on('error', () => {

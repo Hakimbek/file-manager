@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { createReadStream, createWriteStream } from "node:fs";
 import { createBrotliDecompress } from "node:zlib";
+import { logCurrentDirectory } from "./logCurrentDirectory.js";
 
 export const decompress = async (userInput, currentDirectory) => {
     try {
@@ -16,6 +17,7 @@ export const decompress = async (userInput, currentDirectory) => {
         );
 
         console.log('File decompressed successfully');
+        logCurrentDirectory(currentDirectory);
     } catch {
         console.log('Operation failed');
     }

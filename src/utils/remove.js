@@ -1,5 +1,6 @@
 import { resolve } from "node:path";
 import { rm } from "node:fs/promises";
+import { logCurrentDirectory } from "./logCurrentDirectory.js";
 
 export const remove = async (userInput, currentDirectory) => {
     try {
@@ -9,6 +10,7 @@ export const remove = async (userInput, currentDirectory) => {
         await rm(filePath);
 
         console.log('File removed successfully');
+        logCurrentDirectory(currentDirectory);
     } catch {
         console.log('Operation failed');
     }

@@ -1,17 +1,16 @@
-import {
-    getUserName,
-    logCurrentDirectory,
-    readFile,
-    list,
-    createDirectory,
-    createFile,
-    remove,
-    copy,
-    move,
-    hash,
-    compress,
-    decompress
-} from './utils';
+import { getUserName } from './utils/getUserName.js';
+import { logCurrentDirectory } from './utils/logCurrentDirectory.js';
+import { readFile } from './utils/readFile.js';
+import { list } from './utils/list.js';
+import { createFile } from './utils/createFile.js';
+import { createDirectory } from './utils/createDirectory.js';
+import { renameFile } from './utils/rename.js';
+import { remove } from './utils/remove.js';
+import { copy } from './utils/copy.js';
+import { move } from './utils/move.js';
+import { hash } from './utils/hash.js';
+import { compress } from './utils/compress.js';
+import { decompress } from './utils/decompress.js';
 import { arch, cpus, EOL, homedir, userInfo } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { existsSync, lstatSync } from "node:fs";
@@ -38,7 +37,7 @@ const main = () => {
             const parentDir = dirname(currentDirectory);
             if (resolve(parentDir).startsWith(resolve(homeDirectory))) {
                 currentDirectory = parentDir;
-                console.log(`You are currently in ${currentDirectory}`);
+                logCurrentDirectory(currentDirectory);
             } else {
                 console.log('Cannot go above home directory.');
             }
@@ -52,13 +51,15 @@ const main = () => {
                 const resolvedPath = resolve(newPath);
                 if (resolvedPath.startsWith(resolve(homeDirectory))) {
                     currentDirectory = resolvedPath;
-                    console.log(`You are currently in ${currentDirectory}`);
+                    logCurrentDirectory(currentDirectory);
                 } else {
                     console.log('Access outside home directory is not allowed.');
                 }
             } else {
                 console.log('Invalid path');
             }
+        } else if (userInput.startsWith('rn ')) {
+            await renameFile(userInput, currentDirectory);
         } else if (userInput.startsWith('rm ')) {
             await remove(userInput, currentDirectory)
         } else if (userInput.startsWith('cp ')) {
@@ -74,9 +75,8 @@ const main = () => {
         } else if (userInput === 'os --EOL') {
             console.log(JSON.stringify(EOL));
         } else if (userInput === 'os --cpus') {
-            console.log(cpus().map(({ model, speed }) => {
-                return { model, speed: `${(speed / 1000).toFixed(2)} GHz` }
-            }));
+            console.log('Amount: ', cpus().length);
+            console.log(cpus().map(({ model }) => model));
         } else if (userInput === 'os --homedir') {
             console.log(homedir());
         } else if (userInput === 'os --username') {

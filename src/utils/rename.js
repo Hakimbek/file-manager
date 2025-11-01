@@ -2,7 +2,7 @@ import { resolve } from 'node:path'
 import { rename } from 'node:fs/promises'
 import { logCurrentDirectory } from "./logCurrentDirectory.js";
 
-export const move = async (userInput, currentDirectory) => {
+export const renameFile = async (userInput, currentDirectory) => {
     try {
         const [ , source, destination ] = userInput.split(' ');
         const sourcePath = resolve(currentDirectory, source);
@@ -10,7 +10,7 @@ export const move = async (userInput, currentDirectory) => {
 
         await rename(sourcePath, destPath);
 
-        console.log('File moved successfully');
+        console.log('File renamed successfully');
         logCurrentDirectory(currentDirectory);
     } catch {
         console.log('Operation failed');

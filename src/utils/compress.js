@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { createReadStream, createWriteStream } from "node:fs";
 import { createBrotliCompress } from "node:zlib";
+import { logCurrentDirectory } from "./logCurrentDirectory.js";
 
 export const compress = async (userInput, currentDirectory) => {
     try {
@@ -16,6 +17,7 @@ export const compress = async (userInput, currentDirectory) => {
         );
 
         console.log('File compressed successfully');
+        logCurrentDirectory(currentDirectory);
     } catch {
         console.log('Operation failed');
     }

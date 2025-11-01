@@ -1,5 +1,6 @@
 import { resolve } from "node:path";
 import { copyFile } from "node:fs/promises";
+import { logCurrentDirectory } from "./logCurrentDirectory.js";
 
 export const copy = async (userInput, currentDirectory) => {
     try {
@@ -10,6 +11,7 @@ export const copy = async (userInput, currentDirectory) => {
         await copyFile(sourcePath, destPath);
 
         console.log('File copied successfully');
+        logCurrentDirectory(currentDirectory);
     } catch {
         console.log('Operation failed');
     }
